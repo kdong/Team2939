@@ -8,7 +8,7 @@
 
 /*
 *	Zenith 2939
-*	author Ken
+*	@author Ken
 *
 */
 
@@ -84,13 +84,11 @@ task main()
 		}
 		//end deadzones
 
-
-
 		//essential code for holonomic
-		motor1Val = -y1Val - x1Val - x2Val;
-		motor2Val = y1Val - x1Val - x2Val;
-		motor3Val = y1Val + x1Val - x2Val;
-		motor4Val = -y1Val + x1Val - x2Val;
+		motor1Val = y1Val + x1Val - x2Val;
+		motor2Val = -y1Val + x1Val - x2Val;
+		motor3Val = -y1Val - x1Val - x2Val;
+		motor4Val = y1Val - x1Val - x2Val;
 		//end holonomic drive algorithm
 
 		//motor deadzones
@@ -108,7 +106,7 @@ task main()
 		}
 		//end motor deadzones
 
-		//assign values to motors
+		//Trigger button 6 to slow down motors
 		if(joy1Btn(06) == 1){
 			motor[motor1] = motor1Val;
 			motor[motor2] = motor2Val;
@@ -121,7 +119,8 @@ task main()
 			motor[motor3] = motor3Val * scale;
 			motor[motor4] = motor4Val * scale;
 		}
-		//end assignment
+		//end if
+
 
 	}//while
 }//main
