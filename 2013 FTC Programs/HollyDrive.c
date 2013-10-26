@@ -26,7 +26,7 @@ task main()
 	initializeRobot();
 
 	waitForStart();
-	//define variables
+
 	int x1Val = 0;
 	int y1Val = 0;
 	int x2Val = 0;
@@ -34,19 +34,19 @@ task main()
 
 	int scale = 5;
 	int boundBox = 9;
-	// boundBox = bounding box of one wheel
+
 
 	int motor1Val = 0;
 	int motor2Val = 0;
 	int motor3Val = 0;
 	int motor4Val = 0;
-	//end definition
+
 
 	while (true)
 	{
-		getJoystickSettings(joystick); //so we can use the joysticks
+		getJoystickSettings(joystick);
 
-		//deadzones (sensitivity issues on joysticks)
+
 		if(abs(joystick.joy1_x1) > boundBox)
 		{
 			x1Val = joystick.joy1_x1 / scale;
@@ -82,16 +82,14 @@ task main()
 		{
 			y2Val = 0;
 		}
-		//end deadzones
 
-		//essential code for holonomic
+
+
 		motor1Val = y1Val + x1Val - x2Val;
 		motor2Val = -y1Val + x1Val - x2Val;
 		motor3Val = -y1Val - x1Val - x2Val;
 		motor4Val = y1Val - x1Val - x2Val;
-		//end holonomic drive algorithm
 
-		//motor deadzones
 		if((motor1Val <= 15) &&  (motor1Val >= 15)){
 			motor1Val = 0;
 		}
@@ -104,9 +102,7 @@ task main()
 		if((motor4Val <= 15) && (motor4Val >= 15)){
 			motor4Val = 0;
 		}
-		//end motor deadzones
 
-		//Trigger button 6 to slow down motors
 		if(joy1Btn(06) == 1){
 			motor[motor1] = motor1Val;
 			motor[motor2] = motor2Val;
@@ -119,8 +115,8 @@ task main()
 			motor[motor3] = motor3Val * scale;
 			motor[motor4] = motor4Val * scale;
 		}
-		//end if
 
 
-	}//while
-}//main
+
+	}
+}
