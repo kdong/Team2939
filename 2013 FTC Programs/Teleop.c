@@ -15,23 +15,23 @@
 #include "JoystickDriver.c"
 #include "teleopFunctions.c"
 
-int deadzone = 15;
+int DEADZONE = 15;
 int motorScale = 0.85;
 
 //
-void hangTask() { 					// Assign a task for the hanging method
-	if(joy1Btn(2) == 1){			// If the button is pressed
-		motor[motorHang] = 70;		// The motor is put to 70% power
+void hangTask() { 					
+	if(joy1Btn(2) == 1){			
+		motor[motorHang] = 70;		
 	}else{
-		motor[motorHang] = 0;		// If it's not pressed power goes to 0%
+		motor[motorHang] = 0;		
 	}
 }
 
-void flagTask() { 					// Assign a task for the flag method
-if(joy1Btn(1) == 1){				// If the button is pressed
-	motor[motorFlag] = 70; 			// The motor is put to 70% power
+void flagTask() { 					
+if(joy1Btn(1) == 1){				
+	motor[motorFlag] = 70; 			
 	}else{
-		motor[motorFlag] = 0;		// If it's not pressed power goes to 0%
+		motor[motorFlag] = 0;		
 
 
 	}
@@ -41,8 +41,8 @@ if(joy1Btn(1) == 1){				// If the button is pressed
 
 // Allows left joystick to activate the lift.
 void liftTask() {
-if(abs(joystick.joy2_y1) > deadzone) {
-	motor[motorLift] = joystick.joy2_y2;
+if(abs(joy2Y1()) > DEADZONE) {
+	motor[motorLift] = joy2Y2();
 }	else{
 	motor[motorLift] = 0;
 }
@@ -51,8 +51,8 @@ if(abs(joystick.joy2_y1) > deadzone) {
 
 // Allows right joystick to activate the roller.
 void rollerTask() {
-if(abs(joystick.joy2_y2) > deadzone){
-	motor[motorRoller] = joystick.joy2_y2;
+if(abs(joy2Y2()) > DEADZONE){
+	motor[motorRoller] = joy2Y2();
 }else{
 	motor[motorRoller] = 0;
 }
@@ -72,20 +72,41 @@ if(abs(joystick.joy2_y2) > deadzone){
 void driveTask(){
 
 
-	if(abs(joystick.joy1_y2) > deadzone){
-		motor[motorRight] = motorScale * (pow(joystick.joy1_y2, 3)) + (1 - motorScale) * (joystick.joy1_y2);
-}
+	if(abs(joy1Y2()) > DEADZONE){
+		motor[motorRight] = Ajoy1Y2();
 	}else{
 	motor[motorRight] = 0;
 	}
 
-	if(abs(joystick.joy1_y1) > deadzone){
-		motor[motorLeft] = motorScale * (pow(joystick.joy1_y1, 3)) + (1 - motorScale) * (joystick.joy1_y1);
+	if(abs(joy1Y1) > DEADZONE){
+		motor[motorLeft] = Ajoy1Y1();
 	}else{
 	motor[motorLeft] = 0;
 	}
 //
 
+int joy1X1(){return joystick.joy1_x1;}       
+
+int joy1X2(){return joystick.joy1_x2;}       
+
+int joy1Y1(){return joystick.joy1_y1;}      
+int Ajoy1Y1(){
+	return motorScale * (pow(joy1Y1()), 3) + (1 - motorScale) * (joy1Y1());
+}
+}
+
+int joy1Y2(){return joystick.joy1_y2;}  
+int Ajoy1Y2(){ //adjusted joy1Y2
+	return motorScale * (pow(joy1Y2()), 3) + (1 - motorScale) * (joy1Y2());
+}
+
+int joy2X1(){return joystick.joy2_x1;}
+
+int joy2X2(){return joystick.joy2_x2;}
+
+int joy2Y1(){return joystick.joy2_y1;}
+
+int joy2Y2(){return joystick.joy2_y2;}
 
 
 

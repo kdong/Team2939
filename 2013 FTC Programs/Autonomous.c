@@ -4,6 +4,7 @@
 
 
 #include "JoystickDriver.c"
+#include "AutoFunctions.h" //our header file with all of our functions for autonomous
 
 int circWheel = 3 * PI; // 9.42
 // 9.42 = 1440 motor encoder ticks
