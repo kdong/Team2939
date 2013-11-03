@@ -18,23 +18,58 @@
 int DEADZONE = 15;
 int motorScale = 0.85;
 
-//
-void hangTask() { 					
-	if(joy1Btn(2) == 1){			
-		motor[motorHang] = 70;		
+int joy1X1(){return joystick.joy1_x1;}
+
+int joy1X2(){return joystick.joy1_x2;}
+
+int joy1Y1(){return joystick.joy1_y1;}
+int Ajoy1Y1(){
+	return (motorScale * (pow(joy1Y1()), 3) + (1 - motorScale) * (joy1Y1()));
+}
+}
+
+int joy1Y2(){return joystick.joy1_y2;}
+int Ajoy1Y2(){ //adjusted joy1Y2
+	return (motorScale * (pow(joy1Y2()), 3) + (1 - motorScale) * (joy1Y2()));
+}
+
+int joy2X1(){return joystick.joy2_x1;}
+
+int joy2X2(){return joystick.joy2_x2;}
+
+int joy2Y1(){return joystick.joy2_y1;}
+
+int joy2Y2(){return joystick.joy2_y2;}
+
+int joyD_Right(){return (joystick.joy2_TopHat == 2;)}
+
+int joyD_Left(){return (joystick.joy2_TopHat == 6;)}
+
+int joyD_Up(){return (joystick.joy2_TopHat == 0;)}
+
+int joyD_Down(){return (joystick.joy2_TopHat == 4;)}
+
+void hangTask() {
+	if(joy1Btn(2) == 1){
+		motor[motorHang] = 70;
 	}else{
-		motor[motorHang] = 0;		
+		motor[motorHang] = 0;
 	}
 }
 
-void flagTask() { 					
-if(joy1Btn(1) == 1){				
-	motor[motorFlag] = 70; 			
-	}else{
-		motor[motorFlag] = 0;		
+void flagTask() { // use left and right dpad to control flag mechanism
+if(joyD_Right()){
+	motor[motorFlag] = 100;
+	//motor[FlagB]
+	} // rename to FlagA
 
-
+if(joyD_Left()){
+	motor[motorFlag] = -100;
+}
+	else{
+		motor[motorFlag] = 0;
 	}
+
 }
 
 
@@ -42,7 +77,7 @@ if(joy1Btn(1) == 1){
 // Allows left joystick to activate the lift.
 void liftTask() {
 if(abs(joy2Y1()) > DEADZONE) {
-	motor[motorLift] = joy2Y2();
+	motor[motorLift] = joy2Y1();
 }	else{
 	motor[motorLift] = 0;
 }
@@ -78,36 +113,11 @@ void driveTask(){
 	motor[motorRight] = 0;
 	}
 
-	if(abs(joy1Y1) > DEADZONE){
+	if(abs(joy1Y1()) > DEADZONE){
 		motor[motorLeft] = Ajoy1Y1();
 	}else{
 	motor[motorLeft] = 0;
 	}
-//
-
-int joy1X1(){return joystick.joy1_x1;}       
-
-int joy1X2(){return joystick.joy1_x2;}       
-
-int joy1Y1(){return joystick.joy1_y1;}      
-int Ajoy1Y1(){
-	return motorScale * (pow(joy1Y1()), 3) + (1 - motorScale) * (joy1Y1());
-}
-}
-
-int joy1Y2(){return joystick.joy1_y2;}  
-int Ajoy1Y2(){ //adjusted joy1Y2
-	return motorScale * (pow(joy1Y2()), 3) + (1 - motorScale) * (joy1Y2());
-}
-
-int joy2X1(){return joystick.joy2_x1;}
-
-int joy2X2(){return joystick.joy2_x2;}
-
-int joy2Y1(){return joystick.joy2_y1;}
-
-int joy2Y2(){return joystick.joy2_y2;}
-
 
 
 void initializeRobot()
@@ -117,24 +127,28 @@ void initializeRobot()
   return;
 }
 
+void driveCtrl(){
+	driveTask();
 
+}
 
+void opCtrl(){
+	rollerTask();
+	liftTask();
+	hangTask();
+	flagTask();
+}
 
 task main()
 {
-
 
   initializeRobot();
 
   waitForStart();
 
-  while (true)
-  {
+  while (true) {
   getJoystickSettings(joystick);
-	driveTask();
-	rollerTask();
-	liftTask();
-	hangTask();
-	flagTask();
+	StartTask(driveCtrl);
+	StartTask(opCtrl);
   }
 }
