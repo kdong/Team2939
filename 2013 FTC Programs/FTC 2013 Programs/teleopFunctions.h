@@ -104,6 +104,16 @@ void lift() {
 	}
 }
 
+void flipper(){
+	//btn6 up btn8 down
+	if(joy2Btn(6)){
+		nMotorEncoderTarget[motorFlip] = 270; //	some value for up
+	}
+	if(joy2Btn(8)){
+		nMotorEncoderTarget[motorFlip] = 270;
+	}
+}
+
 void roller() {
 	// joystick buttons 5 & 7, might need to test.
 }
@@ -130,6 +140,7 @@ void initializeRobot()
 }
 
 //end robo functions
+
 
 
 // drive & operator tasks
