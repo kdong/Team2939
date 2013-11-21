@@ -34,6 +34,15 @@ task main()
 
   while (true)
   {
-
+  	StartTask(detectIRBeacon);
+  	detectIR();
+  	forward(); // with argument for inches from robot init to base.
+  	moveToIR(placement);
+  	moveForward(distanceToBeacon());
+  	turnDegreesRight(90);
+  	forward(36);
+  	turnDegreesRight(90);
+  	forward(33);
+  	stop();
   }
 }
