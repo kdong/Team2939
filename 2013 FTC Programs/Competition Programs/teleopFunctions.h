@@ -24,6 +24,8 @@ void flag() {
 	motor[motorB] = joy2X1();
 }*/
 
+
+
 void lift() {
 	if(abs(joy2Y2()) > DEADZONE) {
 		motor[motorLift] = joy2Y2();
