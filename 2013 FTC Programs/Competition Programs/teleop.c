@@ -35,6 +35,6 @@ task main()
 	roller();
 	lift();
 	flipper();
-	//hang();
+	hang();
   }
 }

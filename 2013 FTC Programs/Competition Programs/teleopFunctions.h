@@ -37,8 +37,8 @@ void hang(){
 }
 
 void lift() {
-	if(abs(joy2Y2()) > DEADZONE) {
-		motor[motorLift] = -joy2Y2();
+	if(abs(joy2Y1()) > DEADZONE) {
+		motor[motorLift] = -joy2Y1();
 		}else{
 		motor[motorLift] = 0;
 	}
