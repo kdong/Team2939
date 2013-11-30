@@ -96,7 +96,8 @@ int joyD_Right(){
 }
 
 int joyD_Left(){
-	return (joystick.joy2_TopHat == 6);}
+	return (joystick.joy2_TopHat == 6);
+}
 
 int joyD_Up(){
 	return (joystick.joy2_TopHat == 0);

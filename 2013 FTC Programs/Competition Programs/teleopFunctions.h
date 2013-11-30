@@ -57,7 +57,13 @@ void flipper(){
 }
 
 void roller() { // put on joy 1
-	motor[motorRoller] = joystick.joy2_y1 / 1.27;
+	while(joy1Btn(5)){
+		motor[motorRoller] = 100;	
+	}
+	while(joy1Btn(7)){
+		motor[motorRoller] = -100;	
+	}
+	motor[motorRoller] = 0;
 }
 
 void drive(){
