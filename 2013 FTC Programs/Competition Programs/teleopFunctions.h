@@ -2,38 +2,28 @@
 
 int DEADZONE = 15;
 
-
 //end variable declaration
 
-#include "joystickMapping.h"
+
 //joystick mapping maps most joystick values to pretty variable names
+#include "joystickMapping.h"
 
-//end joystick config
 
-//robot functions
-/*void hang() {
-	if(joy1Btn(2) == 1){
-		motor[motorHang] = 70;
-		}else{
-		motor[motorHang] = 0;
-	}
+// Retract servo to a safe position
+void initializeRobot()
+{
+	servo[servoSensor] = 256;
+	return;
 }
-											We will not use these two functions for the first league match.
-void flag() {
-	motor[motorA] = joy2X1();
-	motor[motorB] = joy2X1();
-}*/
 
-void hang(){
+
+// Robot system functions
+void hang() {
 	if(abs(joy2Y2()) > DEADZONE){
 		motor[motorHang] = joy2Y2();
-
-
 	}else{
 		motor[motorHang] = 0;
-
 	}
-
 }
 
 void lift() {
@@ -44,47 +34,87 @@ void lift() {
 	}
 }
 
-void flipper(){
-	//btn6 up btn8 down
-	if(joyD_Up()){
-		nMotorEncoderTarget[motorFlip] = 0; //	some value for up
-		motor[motorFlip] = 100;
+void flipper() {
+	while(joyD_Up()){
+		servo[cServo] = 256; // 'up'
+		servo[cServoII] = 0; // 'up'
 	}
-	if(joyD_Down()){
-		nMotorEncoderTarget[motorFlip] = -25;
-		motor[motorFlip] = -100;
+	while(joyD_Down()){
+		servo[cServo] = 0; // 'down'
+		servo[cServoII] = 256; // 'down'
 	}
+		servo[cServo] = 127; // 127 = stopped
+		servo[cServoII] = 127;
 }
 
-void roller() { // put on joy 1
-	while(joy1Btn(5)){
-		motor[motorRoller] = 100;	
-	}
+void roller() {
 	while(joy1Btn(7)){
-		motor[motorRoller] = -100;	
+		motor[motorRoller] = 100;
+	}
+	while(joy1Btn(5)){
+		motor[motorRoller] = -100;
 	}
 	motor[motorRoller] = 0;
 }
 
-void drive(){
-
-
-	if(abs(joy1Y2()) > DEADZONE){
-		motor[motorLeft] = joy1Y2();
+void r_drive() { // right side robot drive
+	if(abs(joy1Y1()) > DEADZONE){
+		motor[motorLeft] = joy1Y1();
 		}else{
 		motor[motorLeft] = 0;
 	}
+}
 
-	if(abs(joy1Y1()) > DEADZONE){
-		motor[motorRight] = -joy1Y1();
+void l_drive(){ // left side robot drive
+	if(abs(joy1Y2()) > DEADZONE){
+		motor[motorRight] = joy1Y2();
 		}else{
 		motor[motorRight] = 0;
 	}
 }
+//end robot system functions
 
-void initializeRobot()
-{
-	return;
+
+// multithreading (multitasking/allowing more than one thing to be processed at once)
+// not using task priority unless there are notable lags in robot system
+task tsk_r_drive(){
+	while(true){
+		r_drive();
+	}
+	EndTimeSlice();
 }
 
-//end robo functions
+task tsk_l_drive(){
+	while(true){
+		l_drive();
+	}
+	EndTimeSlice();
+}
+
+task tsk_roller(){
+	while(true){
+		roller();
+	}
+	EndTimeSlice();
+}
+
+task tsk_lift(){
+	while(true){
+		lift();
+	}
+	EndTimeSlice();
+}
+
+task tsk_hang(){
+	while(true){
+		hang();
+	}
+	EndTimeSlice();
+}
+
+task tsk_flip(){
+	while(true){
+		flipper();
+	}
+	EndTimeSlice();
+}

@@ -66,20 +66,20 @@ int joy2X2(){
 int joy2Y1(){
 	if(LogScaleEnabled == true){
 	scaledJoy2Y1 = joystick.joy2_y1 / 8;
-	if(scaledJoy1Y2 >= 0){
+	if(scaledJoy2Y1 >= 0){
 		scaledJoy2Y1 = LogScale[scaledJoy2Y1];
 	}else{
 		scaledJoy2Y1 = -LogScale[-scaledJoy2Y1];
 	}
 	}
-	return scaledJoy1Y2;
+	return scaledJoy2Y1;
 }
 
 int joy2Y2(){
 	if(LogScaleEnabled == true){
 		 scaledJoy2Y2 = joystick.joy2_y2 / 8;
 	if(scaledJoy2Y2 >= 0){
-		scaledJoy1Y2 = LogScale[scaledJoy2Y2];
+		scaledJoy2Y2 = LogScale[scaledJoy2Y2];
 	}else{
 		scaledJoy2Y2 = -LogScale[-scaledJoy2Y2];
 	}
