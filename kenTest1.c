@@ -32,7 +32,7 @@
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "autoFunctions.h"
-#include "autoFunctions.h"
+
 
 void initializeRobot()
 {
@@ -40,21 +40,32 @@ void initializeRobot()
   return;
 }
 
-void servoPos(){
+void moveForward(int rInches, int mPower){
+	int conInches = rInches * 150; // gets motor encoder ticks from rInches
+	resetEnc();
+	nMotorEncoderTarget[motorRight] = conInches;
+	nMotorEncoderTarget[motorLeft] = conInches;
 
+	motor[motorRight] = mPower;
+	motor[motorLeft] = mPower;
 
-			servo[srvo_S1_C4_1] = 128;
-
+	while(nMotorRunState[motorRight] != runStateIdle){
+		eStop();
+	}
 }
 
-void contServo(){
-	while(joy1Btn(6)){
-		motor[cServo] = 256;
+void moveBackward(int rInches, int mPower){
+	int conInches = -rInches * 150; // gets motor encoder ticks from rInches
+	resetEnc();
+	nMotorEncoderTarget[motorRight] = conInches;
+	nMotorEncoderTarget[motorLeft] = conInches;
+
+	motor[motorRight] = -mPower;
+	motor[motorLeft] = -mPower;
+
+	while(nMotorRunState[motorRight] != runStateIdle){
+		eStop();
 	}
-	while(joy1Btn(8)){
-		motor[cServo] = 0;
-	}
-	motor[cServo] = 127;
 }
 
 task main()
@@ -62,15 +73,5 @@ task main()
   initializeRobot();
 
   waitForStart();
- 	//motor[motorLift] = -100;
- 	//wait1Msec(1300);
- 	while(true){
 
- 		servoPos();
- 		wait10Msec(100);
- 		servo[srvo_S1_C4_1] = 0;
- 		wait10Msec(100);
-  		servo[srvo_S1_C4_1] = 255;
- 		wait10Msec(100);
- 		}
 }

@@ -57,16 +57,18 @@ void roller() {
 	motor[motorRoller] = 0;
 }
 
-void r_drive() { // right side robot drive
-	if(abs(joy1Y1()) > DEADZONE){
+void l_drive() { // right side robot drive
+
+		if(abs(joy1Y1()) > DEADZONE){
 		motor[motorLeft] = joy1Y1();
 		}else{
 		motor[motorLeft] = 0;
 	}
 }
 
-void l_drive(){ // left side robot drive
-	if(abs(joy1Y2()) > DEADZONE){
+void r_drive(){ // left side robot drive
+
+		if(abs(joy1Y2()) > DEADZONE){
 		motor[motorRight] = joy1Y2();
 		}else{
 		motor[motorRight] = 0;

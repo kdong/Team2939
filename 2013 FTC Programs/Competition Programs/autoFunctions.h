@@ -1,6 +1,17 @@
-#define encoder_inch 150
-#define encoder_foot 1800
+int conversionDegreeFactor = (1680/90); // encoder value found doing a '90' degree turn
 
+
+ void resetEnc(){
+ 	nMotorEncoder[motorRight] = 0;
+ 	nMotorEncoder[motorLeft] = 0;
+ }
+
+void eStop(){
+
+	motor[motorRight] = 0;
+	motor[motorLeft] = 0;
+	wait1Msec(5);
+}
 
 void initializeRobot(){
 	nMotorEncoder[motorRight] = 0;
@@ -13,77 +24,98 @@ void initIR(){
 	wait1Msec(1);
 }
 
-void detectIR(){
-	while(SensorValue[sensorIR] != 5){
-		
-	}	
-}
+void gotoIR(){
+	do {
+		motor[motorLeft] = 100;
+		motor[motorRight] = 100;
+	} while (SensorValue[sensorIR] != 5);
 
-void turnDegreesRight(int power, int degrees){
-	// motor left go
-
-}
-
-void turnDegreesLeft(int power, int degrees){
-
-
-}
-
-void arcTurnRight(int power, int degrees){
-
-
-}
-
-void arcTurnLeft(int power, int degrees){
-
-
-}
-
-void irPinPoint(){
-
-
-}
-
-
-void moveToIR(char placement){
-
-
-
-}
-
-void moveForward(int inches, int power){
-
-	converted_inches = encoder_inch * inches;
-
-	nMotorEncoderTarget[motorRight] = converted_inches;
-	nMotorEncoderTarget[motorLeft] = converted_inches;
-
-	motor[motorRight] = power;
-	motor[motorLeft] = power;
-}
-
-void moveBackward(int inches, int power){
-
-	converted_inches = encoder_inch * inches;
-	while(nMotorEncoder[motorRight] && nMotorEncoder[motorLeft] = converted_inches){
-		motor[motorRight] = -power;
-		motor[motorLeft] = -power;
-
+	if(SensorValue[sensorIR] == 5){
+		eStop();
 	}
-	nMotorEncoderTarget[motorRight] = -converted_inches;
-	nMotorEncoderTarget[motorLeft] = -converted_inches;
+}
+
+void determinePos(){
+//	int beaconPos;
 
 }
 
-void eStop(){
+void turnDegreesRight(int mPower, int rDegrees){
+	int conDegrees = rDegrees * conversionDegreeFactor;
+	resetEnc();
 
-	motor[motorRight] = 0;
-	motor[motorLeft] = 0;
-	wait10Msec(5);
+	nMotorEncoderTarget[motorRight] = -conDegrees;
+	nMotorEncoderTarget[motorLeft] = conDegrees;
+
+	motor[motorRight] = -mPower;
+	motor[motorLeft] = mPower;
+
+		while(nMotorRunState[motorRight] != runStateIdle && nMotorRunState[motorLeft] != runStateIdle){
+		// do nothing
+	}
+		eStop();
 }
+
+void turnDegreesLeft(int mPower, int rDegrees){
+	int conDegrees = rDegrees * conversionDegreeFactor;
+	resetEnc();
+
+	nMotorEncoderTarget[motorRight] = conDegrees;
+	nMotorEncoderTarget[motorLeft] = -conDegrees;
+
+	motor[motorRight] = mPower;
+	motor[motorLeft] = -mPower;
+
+		while(nMotorRunState[motorRight] != runStateIdle && nMotorRunState[motorLeft] != runStateIdle){
+		// do nothing
+	}
+		eStop();
+}
+
+
+void moveForward(int rInches, int mPower){
+	int conInches = rInches * 150; // gets motor encoder ticks from rInches
+	resetEnc();
+	nMotorEncoderTarget[motorRight] = conInches;
+	nMotorEncoderTarget[motorLeft] = conInches;
+
+	motor[motorRight] = mPower;
+	motor[motorLeft] = mPower;
+
+	while(nMotorRunState[motorRight] != runStateIdle && nMotorRunState[motorLeft] != runStateIdle){
+		// do nothing
+	}
+		eStop();
+}
+
+void moveBackward(int rInches, int mPower){
+	int conInches = -rInches * 150; // gets motor encoder ticks from rInches
+	resetEnc();
+	nMotorEncoderTarget[motorRight] = conInches;
+	nMotorEncoderTarget[motorLeft] = conInches;
+
+	motor[motorRight] = -mPower;
+	motor[motorLeft] = -mPower;
+
+while(nMotorRunState[motorRight] != runStateIdle && nMotorRunState[motorLeft] != runStateIdle ){
+		//do nothing
+}
+	eStop();
+}
+
+
 
 void scoreAuto(){
+	motor[motorLift] = 100;
+	wait1Msec(1300);
 
+	servo[cServo] = 0;
+	servo[cServoII] = 256;
+	wait1Msec(850);
+
+	servo[cServo] = 256;
+	servo[cServoII] = 0;
+	wait1Msec(850);
 }
 
 void gotoLastCrate(){
