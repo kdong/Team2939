@@ -33,7 +33,7 @@ task main()
 	storeEncoderValues();
 	delayStop(500);
 	
-	turnLeft();
+	turnLeft(_90DEGREES);
 	delayStop(500);
 	
 	moveBackward(3); // 3
