@@ -38,5 +38,6 @@ task main()
   	StartTask(tsk_flip); // joy2 d-pad up and down
   	StartTask(tsk_hang); // joy2Y2
   	StartTask(tsk_lift); // joy2Y1
+
   	}
 }

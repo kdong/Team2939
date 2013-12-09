@@ -23,32 +23,59 @@
 
 task main()
 {
-  initializeRobot(); //will reset motor encoders
+  	initializeRobot(); //will reset motor encoders
+	initIR();
 
-  waitForStart();
+  	waitForStart();
 
-  initIR();
-	gotoIR();
-	determinePos();
-	// needs tweaking
-	turnDegreesRight(90, 90);
-	moveBackward(4, 60);
+	gotoIR_FORWARD();
 
-	scoreAuto();//[	x]
-							// consists of: 1) Raise scissorLift, 2) Actuate flick down
-							// 1) raise scissorLift - 1300 Mseconds at 100%
-	turnDegreesLeft(90, 90); // [ ]
-	gotoLastCrate(); // [	]
-	// algorithm to determine placement
-	turnDegreesLeft(90, 90); // [	]
-	moveForward(6, 100); //[	]
-	// 6 inches, 100% power
-	turnDegreesLeft(90, 100); // [	]
-	raiseHang(); // [	]
-	moveForward(36, 100); // [ ]
-	// 3 feet, 100% power
-	eStop(); // [X] it should stop, but just incase
+	storeEncoderValues();
+	delayStop(500);
+	
+	turnLeft();
+	delayStop(500);
+	
+	moveBackward(3); // 3
 
+	scoreAuto();
+	
+	moveForward(3);
+	delayStop(300);
+	
+	turnRight(_90DEGREES);
+	delayStop(300);
+	
+	e_moveForward();
+	delayStop(300);
+	
+	turnLeft(_45DEGREES);
+	//moveBackward(15);
 
+//turn_fortyfive_left();
+//eStop();
+//wait1Msec(200);
 
+//48 in = 4550 ticks
+
+	//scoreAuto();
+	//determinePos();
+	//// needs tweaking
+	//turnDegreesRight(90, 90);
+	//moveBackward(4, 60);
+
+	//scoreAuto();//[	x]
+	//						// consists of: 1) Raise scissorLift, 2) Actuate flick down
+	//						// 1) raise scissorLift - 1300 Mseconds at 100%
+	//turnDegreesLeft(90, 90); // [ ]
+	//gotoLastCrate(); // [	]
+	//// algorithm to determine placement
+	//turnDegreesLeft(90, 90); // [	]
+	//moveForward(6, 100); //[	]
+	//// 6 inches, 100% power
+	//turnDegreesLeft(90, 100); // [	]
+	//raiseHang(); // [	]
+	//moveForward(36, 100); // [ ]
+	//// 3 feet, 100% power
+	//eStop(); // [X] it should stop, but just incase
 }

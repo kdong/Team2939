@@ -1,7 +1,5 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTMotor,  HTServo)
-#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     sensorIR,       sensorHiTechnicIRSeeker1200)
-#pragma config(Sensor, S3,     sensorLight,    sensorLightActive)
 #pragma config(Motor,  motorA,          motorFlip,     tmotorNXT, openLoop)
 #pragma config(Motor,  motorB,          motorFlag,     tmotorNXT, openLoop)
 #pragma config(Motor,  motorC,          motorFlag2,    tmotorNXT, openLoop)
@@ -13,36 +11,60 @@
 #pragma config(Motor,  mtr_S1_C3_2,     motorI,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C4_1,    servoSensor,          tServoStandard)
 #pragma config(Servo,  srvo_S1_C4_2,    cServo,               tServoContinuousRotation)
-#pragma config(Servo,  srvo_S1_C4_3,    servo3,               tServoNone)
+#pragma config(Servo,  srvo_S1_C4_3,    cServoII,             tServoContinuousRotation)
 #pragma config(Servo,  srvo_S1_C4_4,    servo4,               tServoNone)
 #pragma config(Servo,  srvo_S1_C4_5,    servo5,               tServoNone)
 #pragma config(Servo,  srvo_S1_C4_6,    servo6,               tServoNone)
+//auto code
 
+#include "autoFunctions.h"
 #include "JoystickDriver.c"
-
-
-void initializeRobot(){
-
-
-	return;
-}
-
-void turn90(){
-
-}
 
 
 task main()
 {
   initializeRobot(); //will reset motor encoders
-
+	initIR();
   waitForStart();
+	gotoIR_BACKWARD();
+	eStop();
+	wait1Msec(500);
+	turnLeft();
+	eStop();
+	wait1Msec(500);
+	moveBackward(3);
+	scoreAuto();
+	moveForward(3);
+	eStop();
+	wait1Msec(300);
+	turnLeft();
+	//moveToEnd(); //function
+	turn_fortyfive_right();
+  //moveForward(toEnd);
 
-    //simple code to run the robot backwards since we are back heavy
-    motor[motorRight] = -100;
-    motor[motorLeft] = -100;
-		wait1Msec(2500);
-		motor[motorRight] = 0;
-		motor[motorLeft] = 0;
-		wait1Msec(2000);
+
+
+	//scoreAuto();
+	//determinePos();
+	//// needs tweaking
+	//turnDegreesRight(90, 90);
+	//moveBackward(4, 60);
+
+	//scoreAuto();//[	x]
+	//						// consists of: 1) Raise scissorLift, 2) Actuate flick down
+	//						// 1) raise scissorLift - 1300 Mseconds at 100%
+	//turnDegreesLeft(90, 90); // [ ]
+	//gotoLastCrate(); // [	]
+	//// algorithm to determine placement
+	//turnDegreesLeft(90, 90); // [	]
+	//moveForward(6, 100); //[	]
+	//// 6 inches, 100% power
+	//turnDegreesLeft(90, 100); // [	]
+	//raiseHang(); // [	]
+	//moveForward(36, 100); // [ ]
+	//// 3 feet, 100% power
+	//eStop(); // [X] it should stop, but just incase
+
+
+
 }

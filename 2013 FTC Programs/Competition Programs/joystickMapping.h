@@ -17,6 +17,7 @@ bool LogScaleEnabled = true;
 //joystick configuration for variables
 
 // joysticks
+// logarithmic scaling for driver controlled joysticks
 int joy1X1(){
 
 	int scaledJoy1X1 = joystick.joy1_x1;
@@ -90,7 +91,8 @@ int joy2Y2(){
 }
 
 
-// tophat/d-pad functions
+// tophat/d-pad functions 
+//(Joy2)
 int joyD_Right(){
 	return (joystick.joy2_TopHat == 2);
 }
@@ -124,4 +126,39 @@ int joyD_UpLeft(){
 	return joystick.joy2_TopHat == 7;
 }
 
+
+
+// joy1
+int joy1D_Right(){
+	return (joystick.joy1_TopHat == 2);
+}
+
+int joy1D_Left(){
+	return (joystick.joy1_TopHat == 6);
+}
+
+int joy1D_Up(){
+	return (joystick.joy1_TopHat == 0);
+}
+
+int joy1D_Down(){
+	return (joystick.joy1_TopHat == 4);
+}
+
+
+int joy1D_UpRight(){
+	return joystick.joy1_TopHat == 1;
+}
+
+int joy1D_DownRight(){
+	return joystick.joy1_TopHat == 3;
+}
+
+int joy1D_DownLeft(){
+	return joystick.joy1_TopHat == 5;
+}
+
+int joy1D_UpLeft(){
+	return joystick.joy1_TopHat == 7;
+}
 //end joystick config

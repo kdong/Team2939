@@ -1,5 +1,19 @@
-int conversionDegreeFactor = (1680/90); // encoder value found doing a '90' degree turn
+//defining e_forward variables
+int r_forwardEncVal;
+int l_forwardEncVal;
+int r_backwardEncVal;
+int l_backwardEncVal;
+int r_encValToEnd;
+int l_encValToEnd;
+int back_r_encValToEnd;
+int back_l_encValToEnd;
+//end e_forward variables
 
+//constants
+#define _45DEGREES 500
+#define _90DEGREES 1000
+#define _180DEGREES 2000
+#define _360DEGREES 4000
 
  void resetEnc(){
  	nMotorEncoder[motorRight] = 0;
@@ -7,15 +21,19 @@ int conversionDegreeFactor = (1680/90); // encoder value found doing a '90' degr
  }
 
 void eStop(){
-
 	motor[motorRight] = 0;
 	motor[motorLeft] = 0;
 	wait1Msec(5);
 }
 
+void delayStop(int additionalTime){
+	motor[motorRight] = 0;
+	motor[motorLeft] = 0;
+	wait1Msec(additionalTime);
+}
+
 void initializeRobot(){
-	nMotorEncoder[motorRight] = 0;
-	nMotorEncoder[motorLeft] = 0;
+	resetEnc();
 	return;
 }
 
@@ -24,104 +42,211 @@ void initIR(){
 	wait1Msec(1);
 }
 
-void gotoIR(){
-	do {
-		motor[motorLeft] = 100;
+void gotoIR_FORWARD(){
+	while(SensorValue[sensorIR] < 5){
 		motor[motorRight] = 100;
-	} while (SensorValue[sensorIR] != 5);
-
+		motor[motorLeft] = 100;
+	}
 	if(SensorValue[sensorIR] == 5){
 		eStop();
+		wait1Msec(150);
+		r_forwardEncVal = nMotorEncoder[motorRight];
+		l_forwardEncVal = nMotorEncoder[motorLeft];
 	}
-}
-
-void determinePos(){
-//	int beaconPos;
+	//end
 
 }
 
-void turnDegreesRight(int mPower, int rDegrees){
-	int conDegrees = rDegrees * conversionDegreeFactor;
+void gotoIR_BACKWARD(){
+		while(SensorValue[sensorIR] > 5){
+		motor[motorRight] = -100;
+		motor[motorLeft] = -100;
+	}
+	if(SensorValue[sensorIR] == 5){
+		eStop();
+		wait1Msec(150);
+		}
+}
+
+void storeEncoderValues(){
+		r_forwardEncVal = nMotorEncoder[motorRight];
+		l_forwardEncVal = nMotorEncoder[motorLeft];
+		r_backwardEncVal = nMotorEncoder[motorRight];
+		l_backwardEncVal = nMotorEncoder[motorLeft];
+}
+
+int determineForwardPos_r(){
+	r_encValToEnd = 4550 - r_forwardEncVal;
+	return r_encValToEnd;
+}
+
+int determineForwardPos_l(){
+	l_encValToEnd = 4550 - l_forwardEncVal;
+	return l_encValToEnd;
+}
+
+int determineBackwardPos_r(){
+	back_r_encValToEnd = 4550 + r_backwardEncVal;
+	return back_r_encValToEnd;
+}
+
+int determineBackwardPos_l(){
+	back_l_encValToEnd = 4550 + l_backwardEncVal;
+	return back_l_encValToEnd;
+}
+
+void turnRight(){
+
 	resetEnc();
+	while((nMotorEncoder[motorRight] > -encTurnVal) && (nMotorEncoder[motorLeft] < encTurnVal)){
+	nMotorEncoderTarget[motorRight] = -encTurnVal;
+	nMotorEncoderTarget[motorLeft] = encTurnVal;
 
-	nMotorEncoderTarget[motorRight] = -conDegrees;
-	nMotorEncoderTarget[motorLeft] = conDegrees;
-
-	motor[motorRight] = -mPower;
-	motor[motorLeft] = mPower;
-
-		while(nMotorRunState[motorRight] != runStateIdle && nMotorRunState[motorLeft] != runStateIdle){
-		// do nothing
-	}
+	motor[motorRight] = -100;
+	motor[motorLeft] = 100;
+}
 		eStop();
 }
 
-void turnDegreesLeft(int mPower, int rDegrees){
-	int conDegrees = rDegrees * conversionDegreeFactor;
+void turn_fortyfive_right(){
+
 	resetEnc();
+	while((nMotorEncoder[motorRight] < encTurnVal_FoFi) && (nMotorEncoder[motorLeft] > -encTurnVal_FoFi)){
+	nMotorEncoderTarget[motorRight] = encTurnVal_FoFi;
+	nMotorEncoderTarget[motorLeft] = -encTurnVal_FoFi;
 
-	nMotorEncoderTarget[motorRight] = conDegrees;
-	nMotorEncoderTarget[motorLeft] = -conDegrees;
-
-	motor[motorRight] = mPower;
-	motor[motorLeft] = -mPower;
-
-		while(nMotorRunState[motorRight] != runStateIdle && nMotorRunState[motorLeft] != runStateIdle){
-		// do nothing
-	}
+	motor[motorRight] = 100;
+	motor[motorLeft] = -100;
+}
 		eStop();
 }
 
-
-void moveForward(int rInches, int mPower){
-	int conInches = rInches * 150; // gets motor encoder ticks from rInches
+void turnLeft(){
 	resetEnc();
-	nMotorEncoderTarget[motorRight] = conInches;
-	nMotorEncoderTarget[motorLeft] = conInches;
+	while((nMotorEncoder[motorRight] < encTurnVal) && (nMotorEncoder[motorLeft] > -encTurnVal)){
+	nMotorEncoderTarget[motorRight] = encTurnVal;
+	nMotorEncoderTarget[motorLeft] = -encTurnVal;
 
-	motor[motorRight] = mPower;
-	motor[motorLeft] = mPower;
-
-	while(nMotorRunState[motorRight] != runStateIdle && nMotorRunState[motorLeft] != runStateIdle){
-		// do nothing
-	}
+	motor[motorRight] = 100;
+	motor[motorLeft] = -100;
+}
 		eStop();
 }
 
-void moveBackward(int rInches, int mPower){
-	int conInches = -rInches * 150; // gets motor encoder ticks from rInches
+void turn_fortyfive_left(){
+
 	resetEnc();
-	nMotorEncoderTarget[motorRight] = conInches;
-	nMotorEncoderTarget[motorLeft] = conInches;
+	while((nMotorEncoder[motorRight] > -encTurnVal_FoFi) && (nMotorEncoder[motorLeft] < encTurnVal_FoFi)){
+	nMotorEncoderTarget[motorRight] = -encTurnVal_FoFi;
+	nMotorEncoderTarget[motorLeft] = encTurnVal_FoFi;
 
-	motor[motorRight] = -mPower;
-	motor[motorLeft] = -mPower;
-
-while(nMotorRunState[motorRight] != runStateIdle && nMotorRunState[motorLeft] != runStateIdle ){
-		//do nothing
+	motor[motorRight] = -100;
+	motor[motorLeft] = 100;
 }
-	eStop();
+		eStop();
+}
+void moveForward(int rInches){
+	int convInches = rInches * 150;
+	resetEnc();
+	while((nMotorEncoder[motorRight] < convInches) && (nMotorEncoder[motorLeft] < convInches)){
+	nMotorEncoderTarget[motorRight] = convInches;
+	nMotorEncoderTarget[motorLeft] = convInches;
+
+	motor[motorRight] = 100;
+	motor[motorLeft] = 100;
+}
+		eStop();
+}
+
+void moveBackward(int rInches){
+	int convInches = rInches * 150;
+	resetEnc();
+	while((nMotorEncoder[motorRight] > -convInches) && (nMotorEncoder[motorLeft] > -convInches)){
+	nMotorEncoderTarget[motorRight] = -convInches;
+	nMotorEncoderTarget[motorLeft] = -convInches;
+
+	motor[motorRight] = -50;
+	motor[motorLeft] = -50;
+}
+		eStop();
+}
+
+void e_moveForward(){
+
+	resetEnc();
+	while((nMotorEncoder[motorRight] < r_encValToEnd) && (nMotorEncoder[motorLeft] < l_encValToEnd)){
+	nMotorEncoderTarget[motorRight] = r_encValToEnd;
+	nMotorEncoderTarget[motorLeft] = l_encValToEnd;
+
+	motor[motorRight] = 100;
+	motor[motorLeft] = 100;
+}
+		eStop();
+}
+
+void e_moveBackward(int rInches){
+	int convInches = rInches * 150;
+	resetEnc();
+	while((nMotorEncoder[motorRight] > -convInches) && (nMotorEncoder[motorLeft] > -convInches)){
+	nMotorEncoderTarget[motorRight] = -convInches;
+	nMotorEncoderTarget[motorLeft] = -convInches;
+
+	motor[motorRight] = -50;
+	motor[motorLeft] = -50;
+}
+		eStop();
 }
 
 
 
 void scoreAuto(){
-	motor[motorLift] = 100;
-	wait1Msec(1300);
+	motor[motorLift] = -100;
+	wait1Msec(2350);	// up
+	motor[motorLift] = 0;
+	wait1Msec(3);
 
 	servo[cServo] = 0;
-	servo[cServoII] = 256;
-	wait1Msec(850);
+	servo[cServoII] = 256; // down
+	wait1Msec(750);
+
+	servo[cServo] = 127;
+	servo[cServoII] = 127; // stopped
+	wait1Msec(32);
 
 	servo[cServo] = 256;
-	servo[cServoII] = 0;
-	wait1Msec(850);
+	servo[cServoII] = 0; // up
+	wait1Msec(1050);
+
+	motor[motorLift] = 100;
+	wait1Msec(2350); // down
+	motor[motorLift] = 0;
+	wait1Msec(3);
 }
 
-void gotoLastCrate(){
 
+turnRight(int degrees){
+	resetEnc();
+	while((nMotorEncoder[motorRight] > -degrees) && (nMotorEncoder[motorLeft] < degrees)){
+	nMotorEncoderTarget[motorRight] = -degrees;
+	nMotorEncoderTarget[motorLeft] = degrees;
+
+	motor[motorRight] = -100;
+	motor[motorLeft] = 100;
+}
+		eStop();
 }
 
-void raiseHang(){
+void turnRight(){
 
+	resetEnc();
+	while((nMotorEncoder[motorRight] > -encTurnVal) && (nMotorEncoder[motorLeft] < encTurnVal)){
+	nMotorEncoderTarget[motorRight] = -encTurnVal;
+	nMotorEncoderTarget[motorLeft] = encTurnVal;
+
+	motor[motorRight] = -100;
+	motor[motorLeft] = 100;
 }
+		eStop();
+}
+
+

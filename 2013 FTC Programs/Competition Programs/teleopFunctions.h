@@ -12,7 +12,7 @@ int DEADZONE = 15;
 // Retract servo to a safe position
 void initializeRobot()
 {
-	servo[servoSensor] = 256;
+	servo[servoSensor] = 128; //256
 	return;
 }
 
@@ -24,6 +24,14 @@ void hang() {
 	}else{
 		motor[motorHang] = 0;
 	}
+}
+
+void hangBtn(){
+if(joy2Btn(6))
+{
+	motor[motorHang] = 100;
+}
+
 }
 
 void lift() {
@@ -57,7 +65,7 @@ void roller() {
 	motor[motorRoller] = 0;
 }
 
-void l_drive() { // right side robot drive
+void l_drive() { // left side robot drive
 
 		if(abs(joy1Y1()) > DEADZONE){
 		motor[motorLeft] = joy1Y1();
@@ -66,7 +74,7 @@ void l_drive() { // right side robot drive
 	}
 }
 
-void r_drive(){ // left side robot drive
+void r_drive(){ // right side robot drive
 
 		if(abs(joy1Y2()) > DEADZONE){
 		motor[motorRight] = joy1Y2();
