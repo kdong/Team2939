@@ -20,62 +20,48 @@
 #include "autoFunctions.h"
 #include "JoystickDriver.c"
 
-
 task main()
 {
   	initializeRobot(); //will reset motor encoders
-	initIR();
-
   	waitForStart();
 
 	gotoIR_FORWARD();
-
 	storeEncoderValues();
+	resetEnc();
 	delayStop(500);
-	
-	turnLeft(_90DEGREES);
-	delayStop(500);
-	
-	moveBackward(3); // 3
 
+	moveForward(2.5);
+	delayStop(2);
+
+	turnLeft(_135DEGREES + 115);
+	delayStop(500);
+
+	moveBackward(9);
+	resetEnc();
 	scoreAuto();
-	
-	moveForward(3);
+
+	moveForward(6.5);
+	resetEnc();
 	delayStop(300);
-	
+
+	turnRight(_90DEGREES - 65);
+	resetEnc();
+	delayStop(300);
+
+	gotoEnd_for();
+	delayStop(300);
+
+	turnLeft(_135DEGREES);
+	delayStop(300);
+
+	moveBackward(25);
+	delayStop(300);
+
 	turnRight(_90DEGREES);
-	delayStop(300);
-	
-	e_moveForward();
-	delayStop(300);
-	
-	turnLeft(_45DEGREES);
-	//moveBackward(15);
+	delayStop(200);
 
-//turn_fortyfive_left();
-//eStop();
-//wait1Msec(200);
+	moveBackward(30);
+	delayStop(200);
 
-//48 in = 4550 ticks
-
-	//scoreAuto();
-	//determinePos();
-	//// needs tweaking
-	//turnDegreesRight(90, 90);
-	//moveBackward(4, 60);
-
-	//scoreAuto();//[	x]
-	//						// consists of: 1) Raise scissorLift, 2) Actuate flick down
-	//						// 1) raise scissorLift - 1300 Mseconds at 100%
-	//turnDegreesLeft(90, 90); // [ ]
-	//gotoLastCrate(); // [	]
-	//// algorithm to determine placement
-	//turnDegreesLeft(90, 90); // [	]
-	//moveForward(6, 100); //[	]
-	//// 6 inches, 100% power
-	//turnDegreesLeft(90, 100); // [	]
-	//raiseHang(); // [	]
-	//moveForward(36, 100); // [ ]
-	//// 3 feet, 100% power
-	//eStop(); // [X] it should stop, but just incase
+	stopDrive();
 }

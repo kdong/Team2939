@@ -13,7 +13,7 @@ const int LogScale[17] =
 		100
 	};
 
-bool LogScaleEnabled = true;
+static const bool LogScaleEnabled = true;
 //joystick configuration for variables
 
 // joysticks

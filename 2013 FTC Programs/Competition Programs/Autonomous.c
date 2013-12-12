@@ -20,27 +20,19 @@
 
 #include "JoystickDriver.c"
 
-
 void initializeRobot(){
 
-
 	return;
-}
-
-void turn90(){
-
 }
 
 
 task main()
 {
-  initializeRobot(); //will reset motor encoders
+  initializeRobot();
 
-  waitForStart();
-
-    //simple code to run the robot backwards since we are back heavy
-    motor[motorRight] = -100;
-    motor[motorLeft] = -100;
+    waitForStart();
+    motor[motorRight] = 50;
+    motor[motorLeft] = 50;
 		wait1Msec(2500);
 		motor[motorRight] = 0;
 		motor[motorLeft] = 0;
