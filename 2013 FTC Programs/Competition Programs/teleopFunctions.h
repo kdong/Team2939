@@ -82,6 +82,58 @@ void r_drive(){ // right side robot drive
 		motor[motorRight] = 0;
 	}
 }
+
+void lowScore(){
+	if(joy2Btn(5)){
+	motor[motorLift] = -100;
+	wait1Msec(1600);	// up
+	motor[motorLift] = 0;
+	wait1Msec(3);
+
+	servo[cServo] = 0;
+	servo[cServoII] = 256; // down
+	wait1Msec(550);
+
+	servo[cServo] = 127;
+	servo[cServoII] = 127; // stopped
+	wait1Msec(3);
+
+	servo[cServo] = 256;
+	servo[cServoII] = 0; // up
+	wait1Msec(550);
+
+	motor[motorLift] = 100;
+	wait1Msec(1600); // down
+	motor[motorLift] = 0;
+	wait1Msec(3);
+}
+}
+
+void highScore(){
+	if(joy2Btn(7)){
+	motor[motorLift] = -100;
+	wait1Msec(2150);	// up
+	motor[motorLift] = 0;
+	wait1Msec(3);
+
+	servo[cServo] = 0;
+	servo[cServoII] = 256; // down
+	wait1Msec(550);
+
+	servo[cServo] = 127;
+	servo[cServoII] = 127; // stopped
+	wait1Msec(3);
+
+	servo[cServo] = 256;
+	servo[cServoII] = 0; // up
+	wait1Msec(550);
+
+	motor[motorLift] = 100;
+	wait1Msec(2150); // down
+	motor[motorLift] = 0;
+	wait1Msec(3);
+}
+}
 //end robot system functions
 
 
@@ -127,4 +179,11 @@ task tsk_flip(){
 		flipper();
 	}
 	EndTimeSlice();
+}
+
+task tsk_score(){
+	while(true){
+		highScore();
+		lowScore();
+	}
 }

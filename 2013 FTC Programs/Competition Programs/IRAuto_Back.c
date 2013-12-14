@@ -35,7 +35,7 @@ task main()
 
 	moveBackward(3);
 
-	//scoreAuto();
+	scoreAuto();
 
 	moveForward(3);
 	delayStop(300);
