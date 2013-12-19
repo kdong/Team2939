@@ -20,41 +20,63 @@
 #include "autoFunctions.h"
 #include "JoystickDriver.c"
 
-
 task main()
 {
-  	initializeRobot(); //will reset motor encoders
+  	initializeRobot();
+  	resetEnc();
+  	//will reset motor encoders
   	waitForStart();
+  	determineFirst();
+  	while(firstTest == true){
+  	rotateServo();
+  }
 
-	gotoIR_BACKWARD();
+while(secondTest == false){
+	stopDrive();
+}
+
+while(secondTest == true){
+	gotoIR_FORWARD();
 	storeEncoderValues();
+	resetEnc();
 	delayStop(500);
+
+	//switch case
+	moveForwardif(2.75);
+	delayStop(2);
+
+	turnLeft(_135DEGREES + 150);
+	delayStop(500);
+
+	moveBackward(8.75);
+	resetEnc();
+	scoreAuto();
+	moveForward(3.3);
+	resetEnc();
+	delayStop(300);
 
 	turnRight(_90DEGREES);
-	delayStop(500);
-
-	moveBackward(3);
-
-	scoreAuto();
-
-	moveForward(3);
+	resetEnc();
 	delayStop(300);
 
-	turnLeft(_90DEGREES);
+	gotoEnd_for();
 	delayStop(300);
 
-	gotoEnd_back();
+	turnLeft(_135DEGREES - 25);
 	delayStop(300);
 
-	turnRight(_45DEGREES);
+	moveBackward(25);
 	delayStop(300);
 
-	moveForward(25);
-	delayStop(300);
-
-	turnLeft(_45DEGREES);
+	turnRight(_90DEGREES + 50);
 	delayStop(200);
 
-	moveBackward(7);
+	moveBackwardSec(2.5);
 	delayStop(200);
+
+	retractServo();
+	stopDrive();
+	secondTest = false;
+}
+	for(;;){}//loop forever
 }

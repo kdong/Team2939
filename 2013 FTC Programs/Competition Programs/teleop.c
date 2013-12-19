@@ -32,11 +32,12 @@ task main()
   	 // wait1Msec(5); <- see no reason for this to be there, but keeping it just in case.
 		StartTask(tsk_r_drive); // joy1Y2
 		StartTask(tsk_l_drive); // joy1Y1
-
  		StartTask(tsk_roller); // joy1Btn(5) and joy1Btn(7)
   	StartTask(tsk_flip); // joy2 d-pad up and down
   	StartTask(tsk_hang); // joy2Y2
   	StartTask(tsk_lift); // joy2Y1
-  	StartTask(tsk_score);
+  	StartTask(tsk_score); // need to fix/implent
+ //   StartTask(tsk_allign); // in progress of testing
+    //IIRC, 8 is the max amount of tasks that ROBOTC can handle at one time.
   	}
 }

@@ -23,7 +23,9 @@
 
 task main()
 {
-  	initializeRobot(); //will reset motor encoders
+  	initializeRobot();
+  	resetEnc();
+  	//will reset motor encoders
   	waitForStart();
   	determineFirst();
   	while(firstTest == true){
@@ -41,28 +43,27 @@ while(secondTest == true){
 	delayStop(500);
 
 	//switch case
-	moveForwardif(3.45);
+	moveForwardif(2.75);
 	delayStop(2);
 
-	turnLeft(_135DEGREES + 90);
+	turnLeft(_135DEGREES + 150);
 	delayStop(500);
 
-	moveBackward(9.25);
+	moveBackward(8.75);
 	resetEnc();
 	scoreAuto();
-
-	moveForward(3.75);
+	moveForward(3.3);
 	resetEnc();
 	delayStop(300);
 
-	turnRight(_90DEGREES - 35);
+	turnRight(_90DEGREES);
 	resetEnc();
 	delayStop(300);
 
 	gotoEnd_for();
 	delayStop(300);
 
-	turnLeft(_135DEGREES);
+	turnLeft(_135DEGREES - 25);
 	delayStop(300);
 
 	moveBackward(25);
@@ -78,4 +79,5 @@ while(secondTest == true){
 	stopDrive();
 	secondTest = false;
 }
+	for(;;){}//loop forever
 }

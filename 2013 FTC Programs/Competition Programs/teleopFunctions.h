@@ -1,6 +1,6 @@
 //variable declaration
 
-int DEADZONE = 15;
+#define DEADZONE 15
 
 //end variable declaration
 
@@ -12,7 +12,7 @@ int DEADZONE = 15;
 // Retract servo to a safe position
 void initializeRobot()
 {
-	servo[servoSensor] = 128; //256
+	servo[servoSensor] = 0;
 	return;
 }
 
@@ -24,14 +24,6 @@ void hang() {
 	}else{
 		motor[motorHang] = 0;
 	}
-}
-
-void hangBtn(){
-if(joy2Btn(6))
-{
-	motor[motorHang] = 100;
-}
-
 }
 
 void lift() {
@@ -66,25 +58,60 @@ void roller() {
 }
 
 void l_drive() { // left side robot drive
-
+	while(joy1Btn(6)){ // precision driving
 		if(abs(joy1Y1()) > DEADZONE){
-		motor[motorLeft] = joy1Y1();
+		motor[motorLeft] = joy1Y1()/2;
 		}else{
 		motor[motorLeft] = 0;
 	}
 }
+		if(abs(joy1Y1()) > DEADZONE){
+		motor[motorLeft] = joy1Y1();
+		}else{
+		motor[motorLeft] = 0;
+}
+}
 
 void r_drive(){ // right side robot drive
-
+	while(joy1Btn(6)){ // precision driving
 		if(abs(joy1Y2()) > DEADZONE){
-		motor[motorRight] = joy1Y2();
+		motor[motorRight] = joy1Y2()/2;
 		}else{
 		motor[motorRight] = 0;
 	}
 }
+		if(abs(joy1Y2()) > DEADZONE){
+		motor[motorRight] = joy1Y2()/2;
+		}else{
+		motor[motorRight] = 0;
+}
+}
+void autoScore(){
+	if(joyD_Right()){
+	motor[motorLift] = -100;
+	wait1Msec(2150);	// up
+	motor[motorLift] = 0;
+	wait1Msec(3);
 
-void lowScore(){
-	if(joy2Btn(5)){
+	servo[cServo] = 0;
+	servo[cServoII] = 256; // down
+	wait1Msec(550);
+
+	servo[cServo] = 127;
+	servo[cServoII] = 127; // stopped
+	wait1Msec(3);
+
+	servo[cServo] = 256;
+	servo[cServoII] = 0; // up
+	wait1Msec(550);
+
+	motor[motorLift] = 100;
+	wait1Msec(2150); // down
+	motor[motorLift] = 0;
+	wait1Msec(3);
+}
+
+	if(joyD_Left()){
 	motor[motorLift] = -100;
 	wait1Msec(1600);	// up
 	motor[motorLift] = 0;
@@ -109,31 +136,6 @@ void lowScore(){
 }
 }
 
-void highScore(){
-	if(joy2Btn(7)){
-	motor[motorLift] = -100;
-	wait1Msec(2150);	// up
-	motor[motorLift] = 0;
-	wait1Msec(3);
-
-	servo[cServo] = 0;
-	servo[cServoII] = 256; // down
-	wait1Msec(550);
-
-	servo[cServo] = 127;
-	servo[cServoII] = 127; // stopped
-	wait1Msec(3);
-
-	servo[cServo] = 256;
-	servo[cServoII] = 0; // up
-	wait1Msec(550);
-
-	motor[motorLift] = 100;
-	wait1Msec(2150); // down
-	motor[motorLift] = 0;
-	wait1Msec(3);
-}
-}
 //end robot system functions
 
 
@@ -183,7 +185,7 @@ task tsk_flip(){
 
 task tsk_score(){
 	while(true){
-		highScore();
-		lowScore();
+		autoScore();
 	}
+	EndTimeSlice();
 }

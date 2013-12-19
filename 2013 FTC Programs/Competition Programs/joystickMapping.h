@@ -4,6 +4,7 @@ int scaledJoy1Y2;
 int scaledJoy2Y1;
 int scaledJoy2Y2;
 
+
 const int LogScale[17] =
 	{
 		0, 5, 9, 10,

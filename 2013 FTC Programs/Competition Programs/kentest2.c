@@ -21,15 +21,36 @@
 #include "autoFunctions.h"
 
 task main(){
-	initializeRobot();
-	waitForStart();
 
-	//motor[motorHang] = -100;
-	//wait1Msec(6750);
-	//motor[motorHang] = 0;
-	//wait1Msec(5);
-	turn_fortyfive_left();
-	delayStop(0);
-	turn_fortyfive_right();
-	delayStop(0);
-}
+	waitForStart();
+//	turnRight(_45DEGREES);
+//	delayStop(1000);
+//	turnLeft(_45DEGREES);
+//	delayStop(1000);
+
+////need to get _90DEGREES right, so that it will make for easier allignment.
+//	turnLeft(_90DEGREES);
+//	delayStop(1000);
+//	turnRight(_90DEGREES);
+//	delayStop(1000);
+
+
+//	turnLeft(_180DEGREES);
+//	delayStop(1000);
+//	turnRight(_180DEGREES);
+//	delayStop(1000);
+
+
+//	turnLeft(_360DEGREES);
+//	delayStop(1000);
+//	turnRight(_360DEGREES);
+//	delayStop(1000);
+		turnRight(_90DEGREES + 100);
+		delayStop(500);
+
+		turnLeft(_90DEGREES + 100);
+		delayStop(500);
+
+		turnRight(_90DEGREES);
+		delayStop(500);
+	}

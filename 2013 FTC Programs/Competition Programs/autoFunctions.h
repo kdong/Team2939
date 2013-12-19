@@ -18,13 +18,16 @@ bool secondTest;
 #define _135DEGREES 1275
 #define _180DEGREES 2150
 #define _360DEGREES 4300
-#define mEncLength 5000
+#define mEncLength 4850
 
 	void retractServo(){
-	servo[servoSensor] = 128; //256
-	wait1Msec(5000);
+	servo[servoSensor] = 15; //256
+	wait1Msec(500);
 	}
 
+	void irSensorPos(){
+		servo[servoSensor] = 175;
+	}
 
  void determineFirst(){
  	if(SensorValue[sensorIR] == 0){
@@ -48,7 +51,16 @@ bool secondTest;
  }
 
  void rotateServo(){
- 	servo[servoSensor] = 35;
+ 	servo[servoSensor] = 17;
+ 	determineSecond();
+ 	//servo[servoSensor] = 35;
+ 	//determineSecond();
+ 	//servo[servoSensor] = 0;
+ 	//determineSecond();
+ }
+
+ void rotateServo_B(){
+ 	servo[servoSensor] = 162;
  	determineSecond();
  }
 
@@ -84,8 +96,8 @@ void moveBackward(int rInches){
 }
 
 void moveBackwardSec(int seconds){
-		motor[motorRight] = -100;
-		motor[motorLeft] = -100;
+		motor[motorRight] = -80;
+		motor[motorLeft] = -80;
 		wait1Msec(1000 * seconds);
 		stopDrive();
 }
@@ -98,7 +110,7 @@ void delayStop(int additionalTime){ //usage in IRAuto and IRAuto_Back, for preci
 
 void initIR(){
 	servo[servoSensor] = 128;
-	wait1Msec(1);
+	wait1Msec(10);
 }
 
 void initializeRobot(){
@@ -128,6 +140,8 @@ void gotoIR_BACKWARD(){
 	if(SensorValue[sensorIR] == 5){
 		stopDrive();
 		wait1Msec(150);
+		r_backwardEncVal = nMotorEncoder[motorRight];
+		l_backwardEncVal = nMotorEncoder[motorLeft];
 		}
 }
 
@@ -139,7 +153,7 @@ void storeEncoderValues(){
 }
 
 void moveForwardif(int rInches){
-	if((nMotorEncoder[motorRight] < 4750) && (nMotorEncoder[motorLeft] < 4750))
+	if((r_forwardEncVal < 4000) && (l_forwardEncVal < 4000))
 {
 	int convInches = rInches * 150;
 	resetEnc();
@@ -154,7 +168,24 @@ void moveForwardif(int rInches){
 }else{
 	stopDrive();
 }
+}
 
+void moveBackwardif(int rInches){
+	if((r_backwardEncVal > -4000) && (l_backwardEncVal > -4000))
+{
+	int convInches = rInches * 150;
+	resetEnc();
+	while((nMotorEncoder[motorRight] > -convInches) && (nMotorEncoder[motorLeft] > -convInches)){
+	nMotorEncoderTarget[motorRight] = -convInches;
+	nMotorEncoderTarget[motorLeft] = -convInches;
+
+	motor[motorRight] = -100;
+	motor[motorLeft] = -100;
+}
+		stopDrive();
+}else{
+	stopDrive();
+}
 }
 
 int determineForwardPos_r(){
@@ -277,4 +308,12 @@ void pivotRight(int degrees){
 	motor[motorLeft] = 90;
 }
 		stopDrive();
+}
+
+
+void timedMove(int seconds, int power, int direction){
+
+	motor[motorRight] = power * direction;
+	motor[motorLeft] = power * direction;
+	wait1Msec(seconds * 1000);
 }

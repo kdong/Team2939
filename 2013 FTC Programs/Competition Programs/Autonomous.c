@@ -19,6 +19,7 @@
 #pragma config(Servo,  srvo_S1_C4_6,    servo6,               tServoNone)
 
 #include "JoystickDriver.c"
+#include "autoFunctions.h"
 
 void initializeRobot(){
 
@@ -31,10 +32,34 @@ task main()
   initializeRobot();
 
     waitForStart();
-    motor[motorRight] = 50;
-    motor[motorLeft] = 50;
-		wait1Msec(2500);
-		motor[motorRight] = 0;
-		motor[motorLeft] = 0;
-		wait1Msec(2000);
+
+    turnLeft(_45DEGREES - 35);
+    delayStop(10);
+
+    moveBackward(32);
+    delayStop(10);
+
+    turnLeft(_90DEGREES);
+    delayStop(10);
+
+    timedMove(5, 100, -1); // 5 seconds, 100 power, backwards
+    stopDrive();
+    delayStop(0);
+    timedMove(3, 100, 1); // 3 seconds, 100 power, forward
+    stopDrive();
+    delayStop(0);
+    timedMove(4, 100, -1); // 4 seconds, 100 power, backwards
+    stopDrive();
+    delayStop(0);
+
+    gotoIR_FORWARD();
+    storeEncoderValues();
+    resetEnc();
+    delayStop(300);
+
+    turnRight(_90DEGREES - 35);
+    resetEnc();
+    delayStop(0);
+
+
 }
