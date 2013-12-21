@@ -22,9 +22,8 @@
 
 task main()
 {
-  	initializeRobot();
+  	initializeRobotAUTO();
   	resetEnc();
-  	//will reset motor encoders
   	waitForStart();
   	determineFirst();
   	while(firstTest == true){

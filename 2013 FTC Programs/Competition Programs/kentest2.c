@@ -22,35 +22,63 @@
 
 task main(){
 
+	// while(true){
+	// 	armsDown();
+	// }
+
 	waitForStart();
-//	turnRight(_45DEGREES);
-//	delayStop(1000);
-//	turnLeft(_45DEGREES);
-//	delayStop(1000);
+	pivotRight(_90DEGREES);
+	stopDrive();
+	pivotLeft(_90DEGREES);
+	stopDrive();
 
-////need to get _90DEGREES right, so that it will make for easier allignment.
-//	turnLeft(_90DEGREES);
-//	delayStop(1000);
-//	turnRight(_90DEGREES);
-//	delayStop(1000);
+	pivotRight(_90DEGREES);
+	stopDrive();
+	pivotLeft(_90DEGREES);
+	stopDrive();
+
+	pivotRight(_90DEGREES);
+	stopDrive();
+	pivotLeft(_90DEGREES);
+	stopDrive();
+
+	pivotRight(_90DEGREES);
+	stopDrive();
+	pivotLeft(_90DEGREES);
+	stopDrive();
+	
+	pivotRight(_90DEGREES);
+	stopDrive();
+	pivotLeft(_90DEGREES);
+	stopDrive();
+}
+	// turnRight(_45DEGREES);
+	// delayStop(1000);
+	// turnLeft(_45DEGREES);
+	// delayStop(1000);
+
+// //need to get _90DEGREES right, so that it will make for easier allignment.
+// 	turnLeft(_90DEGREES);
+// 	delayStop(1000);
+// 	turnRight(_90DEGREES);
+// 	delayStop(1000);
 
 
-//	turnLeft(_180DEGREES);
-//	delayStop(1000);
-//	turnRight(_180DEGREES);
-//	delayStop(1000);
+	// turnLeft(_180DEGREES);
+	// delayStop(1000);
+	// turnRight(_180DEGREES);
+	// delayStop(1000);
 
 
-//	turnLeft(_360DEGREES);
-//	delayStop(1000);
-//	turnRight(_360DEGREES);
-//	delayStop(1000);
-		turnRight(_90DEGREES + 100);
-		delayStop(500);
+	// turnLeft(_360DEGREES);
+	// delayStop(1000);
+	// turnRight(_360DEGREES);
+	// delayStop(1000);
+	// 	turnRight(_90DEGREES + 100);
+	// 	delayStop(500);
 
-		turnLeft(_90DEGREES + 100);
-		delayStop(500);
+	// 	turnLeft(_90DEGREES + 100);
+	// 	delayStop(500);
 
-		turnRight(_90DEGREES);
-		delayStop(500);
-	}
+	// 	turnRight(_90DEGREES);
+	// 	delayStop(500);

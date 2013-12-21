@@ -76,8 +76,8 @@ void moveForward(int rInches){
 	nMotorEncoderTarget[motorRight] = convInches;
 	nMotorEncoderTarget[motorLeft] = convInches;
 
-	motor[motorRight] = 85;
-	motor[motorLeft] = 85;
+	motor[motorRight] = 65;
+	motor[motorLeft] = 65;
 }
 		stopDrive();
 }
@@ -113,7 +113,7 @@ void initIR(){
 	wait1Msec(10);
 }
 
-void initializeRobot(){
+void initializeRobotAUTO(){
 	resetEnc();
 	initIR();
 	return;
@@ -121,8 +121,8 @@ void initializeRobot(){
 
 void gotoIR_FORWARD(){
 	while(SensorValue[sensorIR] < 5){
-		motor[motorRight] = 75;
-		motor[motorLeft] = 75;
+		motor[motorRight] = 65;
+		motor[motorLeft] = 65;
 	}
 	if(SensorValue[sensorIR] == 5){
 		stopDrive();
@@ -165,6 +165,7 @@ void moveForwardif(int rInches){
 	motor[motorLeft] = 85;
 }
 		stopDrive();
+
 }else{
 	stopDrive();
 }
@@ -268,8 +269,8 @@ void turnRight(int degrees){
 	nMotorEncoderTarget[motorRight] = -degrees;
 	nMotorEncoderTarget[motorLeft] = degrees;
 
-	motor[motorRight] = -90;
-	motor[motorLeft] = 90;
+	motor[motorRight] = -80;
+	motor[motorLeft] = 80;
 }
 		stopDrive();
 }
@@ -280,8 +281,8 @@ void turnLeft(int degrees){
 	nMotorEncoderTarget[motorRight] = degrees;
 	nMotorEncoderTarget[motorLeft] = -degrees;
 
-	motor[motorRight] = 90;
-	motor[motorLeft] = -90;
+	motor[motorRight] = 80;
+	motor[motorLeft] = -80;
 }
 		stopDrive();
 }
@@ -312,8 +313,11 @@ void pivotRight(int degrees){
 
 
 void timedMove(int seconds, int power, int direction){
-
 	motor[motorRight] = power * direction;
 	motor[motorLeft] = power * direction;
 	wait1Msec(seconds * 1000);
+}
+
+void armsDown(){
+	motor[motorHang] = -60;
 }
