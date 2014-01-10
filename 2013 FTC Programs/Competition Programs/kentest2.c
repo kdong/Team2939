@@ -21,35 +21,7 @@
 #include "autoFunctions.h"
 
 task main(){
-
-	// while(true){
-	// 	armsDown();
-	// }
-
-	waitForStart();
-	pivotRight(_90DEGREES);
-	stopDrive();
-	pivotLeft(_90DEGREES);
-	stopDrive();
-
-	pivotRight(_90DEGREES);
-	stopDrive();
-	pivotLeft(_90DEGREES);
-	stopDrive();
-
-	pivotRight(_90DEGREES);
-	stopDrive();
-	pivotLeft(_90DEGREES);
-	stopDrive();
-
-	pivotRight(_90DEGREES);
-	stopDrive();
-	pivotLeft(_90DEGREES);
-	stopDrive();
-	
-	pivotRight(_90DEGREES);
-	stopDrive();
-	pivotLeft(_90DEGREES);
+	moveBackward(25);
 	stopDrive();
 }
 	// turnRight(_45DEGREES);
